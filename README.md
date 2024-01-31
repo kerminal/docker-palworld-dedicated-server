@@ -23,11 +23,25 @@ To automate server management tasks, such as scheduled restarts and maintenance,
 
 To automate server management tasks, I use a PowerShell script (`ServerRestart.ps1`) in the repository. This script interfaces with the Docker environment to control the game server and communicates updates via Discord webhooks & rconcli.
 
-### Using the PowerShell Script for Scheduled Tasks
+### Im seeing S_API errors in my logs when I start the container?
+Errors like `[S_API FAIL] Tried to access Steam interface SteamUser021 before SteamAPI_Init succeeded.` are safe to ignore.
 
-1. Download the `ServerRestart.ps1` script from the repository.
-2. Open the script and replace `"webhook_here"` in the `$discordWebhookUrl` variable with your actual Discord webhook URL.
-3. Ensure Docker and Docker Compose are installed and configured on your system.
-4. Schedule the script to run at your preferred intervals using Windows Task Scheduler for automated server restarts and management.
+### Im using Apple silicon type of hardware, can I run this?
+You can try to insert in your docker-compose file this parameter `platform: linux/amd64` at the palworld service. This isnt a special fix for Apple silicon, but to run on other than x86 hosts. The support for arm exists only by enforcing x86 emulation, if that isnt to host already. Rosetta is doing the translation/emulation.
 
-For more details, refer to the script comments and the documentation in the script file.
+### I have changed the `BaseCampWorkerMaxNum` settings, why are changes un-affected on the server?
+
+It is a confirm bug, that changing `BaseCampWorkerMaxNum` in the `PalWorldSettings.ini` has no affect on the server. There are tools out there to help with this, like this one: <https://github.com/legoduded/palworld-worldoption>
+
+**PLEASE NOTE** that adding `WorldOption.sav` will breaking `PalWorldSetting.ini` and if that happens all the other settings won't be changeable anymore unless that specific tool is used everytime.
+
+## Planned features in the future
+
+- Feel free to suggest something
+
+## Software used
+
+- CM2Network SteamCMD - Debian-based (Officially recommended by Valve - https://developer.valvesoftware.com/wiki/SteamCMD#Docker)
+- Supercronic - https://github.com/aptible/supercronic
+- rcon-cli - https://github.com/gorcon/rcon-cli
+- Palworld Dedicated Server (APP-ID: 2394010 - https://steamdb.info/app/2394010/config/)
