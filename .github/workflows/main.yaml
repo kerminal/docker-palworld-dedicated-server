@@ -1,9 +1,7 @@
-name: Build n Upload Docker Image
+name: Build and Upload Docker Image
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -20,11 +18,16 @@ jobs:
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       run: |
         docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-    
-    - name: "Build docker image"
+
+    - name: Get short SHA
+      id: slug
+      run: echo "GIT_SHORT_SHA7=$(echo ${GITHUB_SHA} | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
+    - name: Build docker image
       run: |
-        docker build . -t kernelkeeper/palscape:latest
-    
-    - name: "Push docker image to DockerHub"
+        docker build . -t kernelkeeper/palscape:${{ steps.slug.outputs.GIT_SHORT_SHA7 }} -t kernelkeeper/palscape:latest
+
+    - name: Push docker image to DockerHub
       run: |
+        docker push kernelkeeper/palscape:${{ steps.slug.outputs.GIT_SHORT_SHA7 }}
         docker push kernelkeeper/palscape:latest
