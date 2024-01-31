@@ -355,12 +355,6 @@ function startServer() {
         START_OPTIONS="$START_OPTIONS -useperfthreads -NoAsyncLoadingThread -UseMultithreadForDS"
     fi
     ./PalServer.sh "$START_OPTIONS"
-    if [[ "$DISCORD_WEBHOOK_ENABLED" == "true" && $? -eq 0 ]]; then
-        curl -H "Content-Type: application/json" \
-             -X POST \
-             -d '{"content": "Server has been successfully restarted."}' \
-             $DISCORD_WEBHOOK_URL
-    fi
 }
 
 function checkForDefaultCredentials() {

@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.authors="Kerminal"
 LABEL org.opencontainers.image.source="https://github.com/kerminal/docker-palworld-dedicated-server"
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends --no-install-suggests procps xdg-user-dirs curl \
+    && apt-get install -y --no-install-recommends --no-install-suggests procps xdg-user-dirs \
     && apt-get clean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -123,8 +123,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PUBLIC_IP= \
     RCON_ENABLED=false \
     RCON_PORT=25575 \
-    DISCORD_WEBHOOK_ENABLED=false \
-    DISCORD_WEBHOOK_URL="your_discord_webhook_url_here" \
     REGION= \
     USEAUTH=true \
     BAN_LIST_URL=https://api.palworldgame.com/api/banlist.txt
