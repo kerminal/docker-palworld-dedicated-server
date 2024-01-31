@@ -1,8 +1,8 @@
 FROM --platform=linux/amd64 cm2network/steamcmd:root
 
-LABEL maintainer="Sebastian Schmidt - https://github.com/jammsen/docker-palworld-dedicated-server"
-LABEL org.opencontainers.image.authors="Sebastian Schmidt"
-LABEL org.opencontainers.image.source="https://github.com/jammsen/docker-palworld-dedicated-server"
+LABEL maintainer="Kerminal - https://github.com/kerminal/docker-palworld-dedicated-server"
+LABEL org.opencontainers.image.authors="Kerminal"
+LABEL org.opencontainers.image.source="https://github.com/kerminal/docker-palworld-dedicated-server"
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests procps xdg-user-dirs \
@@ -54,14 +54,12 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PUID=0 \
     PGID=0 \
     # Container setttings
-    TZ="Europe/Berlin"   \
+    TZ="America/New_York"   \
     ALWAYS_UPDATE_ON_START=true \
     MULTITHREAD_ENABLED=true \
     COMMUNITY_SERVER=true \
     BACKUP_ENABLED=true \
     BACKUP_CRON_EXPRESSION="0 * * * *" \
-    BACKUP_RETENTION_POLICY=false \
-    BACKUP_RETENTION_AMOUNT_TO_KEEP=30 \
     STEAMCMD_VALIDATE_FILES=true \
     SERVER_SETTINGS_MODE=auto \
     # Server-setting 
@@ -117,8 +115,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     ENABLE_DEFENSE_OTHER_GUILD_PLAYER=false \
     COOP_PLAYER_MAX_NUM=4 \
     MAX_PLAYERS=32 \
-    SERVER_NAME="jammsen-docker-generated-###RANDOM###" \
-    SERVER_DESCRIPTION="Palworld-Dedicated-Server running in Docker by jammsen" \
+    SERVER_NAME="kerminal-docker-generated-###RANDOM###" \
+    SERVER_DESCRIPTION="Palworld-Dedicated-Server running in Docker by kerminal" \
     ADMIN_PASSWORD=adminPasswordHere \
     SERVER_PASSWORD=serverPasswordHere \
     PUBLIC_PORT=8211 \

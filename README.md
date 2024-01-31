@@ -130,3 +130,49 @@ It is a confirm bug, that changing `BaseCampWorkerMaxNum` in the `PalWorldSettin
 - Supercronic - https://github.com/aptible/supercronic
 - rcon-cli - https://github.com/gorcon/rcon-cli
 - Palworld Dedicated Server (APP-ID: 2394010 - https://steamdb.info/app/2394010/config/)
+
+## Powershell for scheduling windows tasks to handle docker restarts.
+
+```powershell
+# Navigate to the specified directory
+Write-Host "Navigating to C:\PalScape"
+cd 'C:\PalScape'
+
+# Function to send RCON broadcast messages
+function Send-RconBroadcast {
+    param (
+        [string]$Message
+    )
+    docker exec palscape rconcli "broadcast $Message"
+    Write-Host "Broadcasted: $Message"
+}
+
+# Send a broadcast message for server restart in 10 minutes
+Send-RconBroadcast "Server_restart_in_10_minutes!"
+Start-Sleep -Seconds 300 # Wait for 5 minutes
+
+# Send a broadcast message for server restart in 5 minutes
+Send-RconBroadcast "Server_restart_in_5_minutes!"
+Start-Sleep -Seconds 180 # Wait for 3 minutes
+
+# Send a broadcast message for server restart in 2 minutes
+Send-RconBroadcast "Server_restart_in_2_minutes!"
+Start-Sleep -Seconds 60 # Wait for 1 minute
+
+# Send a final broadcast message
+Send-RconBroadcast "Server_is_restarting_now!"
+rconcli 'save'
+
+# Ensure the commands have time to be processed by the server
+Start-Sleep -Seconds 10
+
+# Stop and remove containers, networks, and images created by `up`
+Write-Host "Running docker-compose down --rmi all"
+docker-compose down --rmi all | Out-Host
+
+# Start up the containers in detached mode
+Write-Host "Running docker-compose up -d"
+docker-compose up -d | Out-Host
+
+Write-Host "Docker operations completed."
+```

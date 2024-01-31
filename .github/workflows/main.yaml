@@ -1,0 +1,30 @@
+name: Build n Upload Docker Image
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, 'skip build')"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v1
+
+    - name: Docker Login
+      env:
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      run: |
+        docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+    
+    - name: "Build docker image"
+      run: |
+        docker build . -t kernelkeeper/palscape:latest
+    
+    - name: "Push docker image to DockerHub"
+      run: |
+        docker push kernelkeeper/palscape:latest
