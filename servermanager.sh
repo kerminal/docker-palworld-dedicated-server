@@ -33,7 +33,7 @@ function start_server() {
     if [[ -n $WEBHOOK_ENABLED ]] && [[ $WEBHOOK_ENABLED == "true" ]]; then
         send_webhook_notification "$WEBHOOK_START_TITLE" "$WEBHOOK_START_DESCRIPTION" "$WEBHOOK_START_COLOR"
     fi
-    ./PalServer.sh "$START_OPTIONS"
+    LD_PRELOAD="./libpal-plugin-loader.so" ./PalServer.sh "$START_OPTIONS"
 }
 
 function start_main() {
