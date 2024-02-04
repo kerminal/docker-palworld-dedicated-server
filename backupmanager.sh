@@ -10,13 +10,9 @@ if [[ -n $BACKUP_RETENTION_POLICY ]] && [[ $BACKUP_RETENTION_POLICY == "true" ]]
     ls -1t saved-*.tar.gz | tail -n +$(($BACKUP_RETENTION_AMOUNT_TO_KEEP + 1)) | xargs -d '\n' rm -f --
 fi
 cd ~/steamcmd/
-rconcli "broadcast $TIME-Saving-in-5-seconds"
 sleep 5
 rconcli 'save'
-rconcli 'broadcast Saving-done'
 sleep 1
-rconcli 'broadcast Creating-backup'
 cd /palworld/Pal
 tar cfz /palworld/backups/saved-$DATE.tar.gz Saved/
 cd ~/steamcmd/
-rconcli 'broadcast Backup-done'
